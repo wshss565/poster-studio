@@ -1,0 +1,10 @@
+{
+  "name": "poster-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "动态海报编辑器：把文字海报变成会动的片头",
+  "scripts": {
+    "build": "node build.mjs",
+    "font": "node tools/subset-font.mjs"
+  }
+}
