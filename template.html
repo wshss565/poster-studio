@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>动态海报编辑器</title>
+<style>__CSS__</style>
+</head>
+<body>
+<div id="fileWarn" class="file-warn" style="display:none">当前以 file:// 打开：编辑与播放不受影响，但部分浏览器的视频录制 / 下载可能受限，建议通过 http 访问。</div>
+<div id="app">
+  <header class="topbar">
+    <div class="brand"><span class="mark">字</span>动态海报编辑器<span class="ver">v0.8.10</span></div>
+    <div class="tb-group">
+      <span class="tb-label">模式</span>
+      <div class="seg seg-sm" id="modeSeg">
+        <button type="button" data-mode="poster" class="on">海报</button>
+        <button type="button" data-mode="cover">封面</button>
+      </div>
+    </div>
+    <div class="tb-group" id="ratioGroup">
+      <span class="tb-label">画布</span>
+      <select id="ratioSel">
+        <option value="9:16">9:16 竖屏</option>
+        <option value="3:4">3:4 竖屏</option>
+        <option value="1:1">1:1 方形</option>
+        <option value="4:5">4:5 竖版</option>
+      </select>
+    </div>
+    <div class="spacer"></div>
+    <span id="saveState" class="tb-label"></span>
+    <button id="undoBtn" class="btn ghost" title="撤销 (Ctrl+Z)">撤销</button>
+    <button id="redoBtn" class="btn ghost" title="重做 (Ctrl+Shift+Z)">重做</button>
+    <button id="resetBtn" class="btn ghost" title="恢复默认">重置</button>
+    <div class="export-wrap">
+      <button id="exportBtn" class="btn primary">导出 ▾</button>
+      <div id="exportMenu" class="export-menu">
+        <div class="menu-size" id="exportSize">
+          <button data-size="1080" class="on">1080 高清</button>
+          <button data-size="600">600 轻量</button>
+        </div>
+        <button data-kind="video">视频 MP4（老浏览器退 WebM）</button>
+        <button data-kind="gif">GIF 动图</button>
+        <button data-kind="png">PNG 序列帧（zip）</button>
+        <div class="menu-sep"></div>
+        <button data-file="export">导出工程文件（.json）</button>
+        <button data-file="import">导入工程文件…</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <aside class="panel left">
+      <div class="panel-head">图层
+        <span class="head-btns">
+          <button id="addTextBtn" class="btn" style="padding:2px 8px;font-size:11px">+ 文字</button>
+          <button id="addImageBtn" class="btn" style="padding:2px 8px;font-size:11px">+ 图片</button>
+        </span>
+      </div>
+      <input type="file" id="imageInput" accept="image/*" hidden>
+      <div class="panel-body" id="layerList"></div>
+    </aside>
+    <section class="stage" id="stage">
+      <div class="stage-inner">
+        <canvas id="poster" width="1080" height="1920"></canvas>
+        <div id="stageEmpty" class="stage-empty-box" style="display:none">
+          <div class="se-title">拖入一张图，做成会动的封面</div>
+          <div class="se-sub">1:1 正方形画板 · 自动识别主体 · 只让主体动</div>
+          <button id="stageImportBtn" class="btn primary">选择图片</button>
+        </div>
+      </div>
+      <div class="stage-hint" id="stageHint">空格播放 / 暂停 · 拖拽画布中的文字调整位置</div>
+    </section>
+    <aside class="panel right">
+      <div class="panel-head">检查器</div>
+      <div class="panel-body" id="inspector"></div>
+    </aside>
+  </main>
+  <footer class="timeline">
+    <div class="tl-head">
+      <button id="tlPlay" class="btn">▶ 播放</button>
+      <span id="tlTime" class="time">0.00s / 0.00s</span>
+      <div class="dur">总时长 <input id="tlDurInput" type="number" min="0.5" max="60" step="0.1"> 秒</div>
+      <button id="loopBtn" class="btn active" title="循环播放">循环</button>
+    </div>
+    <div id="tlScroll" class="tl-scroll">
+      <div id="tlRuler" class="tl-ruler"></div>
+      <div id="tlTracks" class="tl-tracks"></div>
+      <div id="tlPlayhead" class="tl-playhead"></div>
+      <div id="tlScrub" class="tl-scrub"></div>
+    </div>
+  </footer>
+</div>
+<div id="overlay" class="overlay" style="display:none">
+  <div class="card"><div class="spinner"></div><h3>正在导出</h3><p id="overlayText"></p></div>
+</div>
+<script>__JS__</script>
+</body>
+</html>
